@@ -13,3 +13,9 @@ export const flashcards = pgTable("flashcards", {
   slug: text("slug").notNull(),
   categoryId: uuid("categoryId").references(() => categories.id),
 });
+
+export type NewCateogry = typeof categories.$inferInsert;
+export type Cateogry = typeof categories.$inferSelect;
+
+export type NewFlashcard = typeof flashcards.$inferInsert;
+export type Flashcard = typeof flashcards.$inferSelect;
