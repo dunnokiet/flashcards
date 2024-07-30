@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Cateogry } from "@/drizzle/schema";
+import { Cateogry, Flashcard } from "@/drizzle/schema";
 
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,18 +14,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export const categoriesColumns: ColumnDef<Cateogry>[] = [
+export type FlashcardColumn = Omit<Flashcard, "categoryId"> & {
+  category: Cateogry;
+};
+
+export const flashcardsColumns: ColumnDef<FlashcardColumn>[] = [
   {
     accessorKey: "id",
     header: "ID",
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "question",
+    header: "Question",
   },
   {
-    accessorKey: "slug",
-    header: "Slug",
+    accessorKey: "answer",
+    header: "Answer",
+    cell: ({ getValue }) => {
+      return <p>{getValue() as string}</p>;
+    },
   },
   {
     id: "actions",
@@ -38,7 +45,7 @@ export const categoriesColumns: ColumnDef<Cateogry>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="center">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit</DropdownMenuItem>
